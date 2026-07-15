@@ -32,6 +32,8 @@
 
 遵循仓库已有 front matter、标题和索引方式，不为了添加元数据破坏 OpenAPI、Proto 等规范格式。
 
+用户提供的背景和规则可标记为 `Confirmed`，但新生成的文档默认是 `Draft` 或 `Proposed`。只有用户明确接受当前确切版本后才能改为 `Approved`；不得把模型新增的业务规则或设计取舍伪装成用户已批准事实。
+
 ## 开始编写前的必要输入
 
 只在 `references/workflow-stages.md` 的文档就绪检查通过后使用以下模板。除通用必要信息外，确认对应输入：
