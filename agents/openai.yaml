@@ -1,0 +1,7 @@
+interface:
+  display_name: "结构化开发规划与文档治理"
+  short_description: "读取项目上下文，编写规划文档、拆分任务并生成执行交接包"
+  default_prompt: "Use $structured-development-workflow to inspect this project, plan the required documentation changes, produce approved design documents, decompose and assign implementation tasks, and stop before any code changes."
+
+policy:
+  allow_implicit_invocation: true
