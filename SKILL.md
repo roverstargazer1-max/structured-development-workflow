@@ -1,13 +1,13 @@
 ---
 name: structured-development-workflow
-description: 面向软件项目的开发规划与文档治理 Skill。仅在用户明确要求需求澄清、PRD、产品流程、页面草图、技术架构、数据模型、API 契约、影响分析、实施路线图、任务拆分、角色分工、执行交接、开发文档新增/删改/更新或外部实施结果同步时使用。读取仓库和代码作为事实依据，按 Level 1-3 生成并维护经批准的文档、任务卡和交接包；不编写或修改业务代码与测试，不安装依赖，不运行应用测试、构建、迁移或代码生成，不执行 Git 写操作、提交、推送、PR、合并、发布或部署。普通“实现功能”“修复 Bug”“重构代码”等仅要求实际编码而未要求规划或文档的请求不应隐式触发；显式调用 $structured-development-workflow 时，即使请求包含实现，也只能完成规划、文档和交接，不得进入代码执行。
+description: 面向软件项目的开发规划与文档治理 Skill。仅在用户明确要求需求澄清、PRD、产品流程、页面草图、技术架构、数据模型、API 契约、影响分析、实施路线图、任务拆分、角色分工、执行交接、开发文档新增/删改/更新或外部实施结果同步时使用。读取仓库和代码只为核实事实；若真实背景不足以支撑完整可信的文档，必须停止下游推进并分轮询问，信息充分后才按 Level 1-3 生成和维护经批准的文档、任务卡与交接包。不编写或修改业务代码与测试，不安装依赖，不运行应用测试、构建、迁移或代码生成，不执行 Git 写操作、提交、推送、PR、合并、发布或部署。普通“实现功能”“修复 Bug”“重构代码”等仅要求实际编码而未要求规划或文档的请求不应隐式触发；显式调用 $structured-development-workflow 时，即使请求包含实现，也只能完成规划、文档和交接，不得进入代码执行。
 ---
 
 # 结构化开发规划与文档治理
 
 ## 目标与边界
 
-把模糊开发需求整理为可追踪、可批准、可分配、可交接的文档体系。读取代码和配置只是为了建立事实基础；输出重点是文档、任务和决策，不是代码。
+把模糊开发需求整理为可追踪、可批准、可分配、可交接的文档体系。主要产物是文档、任务卡、角色建议和执行交接包。读取代码和配置只是为了核实可发现事实，不能替代用户提供真实业务背景、意图和取舍；输出重点是文档与任务治理，不是代码实现。
 
 允许在批准后创建或更新人类可读开发文档。允许在获得单独明确批准后维护 OpenAPI、Proto、Schema 等机器可读契约规范。禁止修改业务代码、测试、构建配置、依赖、数据库迁移和实现性脚本；禁止运行应用测试、构建、迁移、代码生成或其他实施命令；禁止执行 Git 写操作和远程操作。
 
@@ -18,7 +18,7 @@ description: 面向软件项目的开发规划与文档治理 Skill。仅在用�
 只读取当前阶段需要的引用：
 
 - 判定 Level 1-3 和文档深度时，读取 [references/task-sizing.md](references/task-sizing.md)。
-- 推进状态、需求变化或进度同步时，读取 [references/workflow-stages.md](references/workflow-stages.md)。
+- 检查文档就绪度、分轮澄清、推进状态、需求变化或进度同步时，读取 [references/workflow-stages.md](references/workflow-stages.md)。
 - 编写 PRD、流程、草图、架构、数据模型或 API 契约时，读取 [references/requirements-and-design-templates.md](references/requirements-and-design-templates.md)。
 - 输出影响分析和实施路线图时，读取 [references/impact-and-roadmap-templates.md](references/impact-and-roadmap-templates.md)。
 - 拆分任务、建议角色和生成执行交接包时，读取 [references/task-decomposition-and-handoff.md](references/task-decomposition-and-handoff.md)。
@@ -29,12 +29,12 @@ description: 面向软件项目的开发规划与文档治理 Skill。仅在用�
 
 按以下状态推进，并在阶段更新中说明当前状态和下一门禁：
 
-`DISCOVER → CLARIFY → SIZE → DOCUMENT_AUDIT → DESIGN → IMPACT_ANALYSIS → DOCUMENT_CHANGE_PLAN → WAITING_FOR_DOCUMENT_APPROVAL → WRITE_DOCUMENTS → TASK_DECOMPOSITION → ASSIGNMENT_AND_HANDOFF → DOCUMENT_VALIDATION → WAITING_FOR_USER_ACCEPTANCE → DONE`
+`DISCOVER → CLARIFY ↔ WAITING_FOR_REQUIRED_CONTEXT → SIZE → DOCUMENT_AUDIT → DESIGN → IMPACT_ANALYSIS → DOCUMENT_CHANGE_PLAN → WAITING_FOR_DOCUMENT_APPROVAL → WRITE_DOCUMENTS → TASK_DECOMPOSITION → ASSIGNMENT_AND_HANDOFF → DOCUMENT_VALIDATION → WAITING_FOR_USER_ACCEPTANCE → DONE`
 
 允许按 Level 跳过不适用的设计产物，但禁止越过以下门禁：
 
 1. 未读取足够项目上下文，不得确定设计和任务边界。
-2. 存在阻塞性歧义，不得形成最终文档变更计划。
+2. 未通过文档就绪检查时，必须进入 `WAITING_FOR_REQUIRED_CONTEXT`；只允许输出已确认事实、缺失信息、阻塞原因和待回答问题，不得分级、设计、输出文档目录或正文草案、形成文档变更计划或拆分任务。仅当用户明确把本轮交付限定为问题清单、调研提纲、决策待办或纯目录建议时，才可输出对应辅助材料并声明其不是正式文档。
 3. 未盘点已有文档、引用和仓库惯例，不得新建平行文档体系。
 4. 未输出文档变更计划并得到明确批准，不得写入、移动、合并或归档文档。
 5. 修改 OpenAPI、Proto、Schema 等机器可读契约前，必须取得针对具体契约和影响范围的单独批准。
@@ -49,11 +49,13 @@ description: 面向软件项目的开发规划与文档治理 Skill。仅在用�
 
 把现有代码、配置、测试、文档和明确决策作为事实来源。只读取与当前规划相关的内容，不无目的遍历大型仓库。不得通过运行应用、测试或构建来代替静态调研。
 
-### 2. 澄清意图并分级
+### 2. 澄清意图并检查文档就绪度
 
-复述目标、非目标、用户/角色、范围、约束和可验证验收标准。先从仓库寻找答案，仅询问无法可靠推断且会改变产品、架构、数据、接口、任务或文档决策的问题。
+复述文档目的与受众、真实背景与当前问题、目标与非目标、用户/角色、范围、约束、关键业务规则、验收标准和权威资料来源。先从仓库寻找可发现答案，仅询问无法可靠推断且会改变需求含义、架构、数据、接口、安全、验收、任务或文档决策的问题。
 
-依据范围、风险、模块数量、数据/安全影响、外部契约、可逆性和不确定性划分 Level 1-3，并说明需要的文档产物和不需要的产物。
+按 `references/workflow-stages.md` 执行通用和文档类型就绪检查。存在阻塞项时，每轮只提出 1-3 个最高优先级问题，然后进入 `WAITING_FOR_REQUIRED_CONTEXT`；用户回答后重新检查，未通过时继续澄清。不得用 `Assumption`、`Unknown`、模板占位符或较高 Level 绕过门禁。
+
+只有通过文档就绪检查后，才依据范围、风险、模块数量、数据/安全影响、外部契约、可逆性和不确定性划分 Level 1-3，并说明需要和不需要的文档产物。
 
 ### 3. 盘点文档并形成设计
 
@@ -63,7 +65,7 @@ description: 面向软件项目的开发规划与文档治理 Skill。仅在用�
 
 ### 4. 分析影响并提出文档变更计划
 
-说明产品、页面、模块、API、数据、安全、性能、一致性、可观测性、发布、回滚、测试和文档的适用影响。区分已确认事实、设计决策、待验证假设和执行阶段风险。
+说明产品、页面、模块、API、数据、安全、性能、一致性、可观测性、发布、回滚、测试和文档的适用影响。区分已确认事实、设计决策、不会改变已确认需求含义的执行阶段假设和风险；不得把缺失的产品事实降格为假设继续推进。
 
 在对任何项目文档落盘前，输出新增、更新、合并、归档、拟删除和不变项清单，列出目标路径、原因、信息来源、引用影响和验证方式，然后进入 `WAITING_FOR_DOCUMENT_APPROVAL`：
 
@@ -77,7 +79,7 @@ description: 面向软件项目的开发规划与文档治理 Skill。仅在用�
 
 ### 6. 拆分、分配并交接任务
 
-把设计转换为可独立执行和验收的任务卡，标明依赖、并行批次、阻塞条件、输入材料、允许/禁止范围、预期产物、完成定义、测试要求、回滚和文档同步要求。
+只把已批准且决策完整的设计转换为可独立执行和验收的任务卡，标明依赖、并行批次、阻塞条件、输入材料、允许/禁止范围、预期产物、完成定义、测试要求、回滚和文档同步要求。若仍缺少会改变任务目标、边界、依赖或完成定义的信息，返回 `CLARIFY`，不得生成任务卡。
 
 未知具体人员时填写推荐角色并标记 `Unassigned`。生成可直接交给开发者或执行 Agent 的任务提示词，但不得启动、委派、协调或监督执行 Agent。
 
@@ -91,7 +93,7 @@ description: 面向软件项目的开发规划与文档治理 Skill。仅在用�
 
 当用户提供开发者状态、测试结果、diff 摘要、验收反馈或发布结果并要求更新文档时，从 `PROGRESS_SYNC` 进入：
 
-`PROGRESS_SYNC → DOCUMENT_AUDIT → DOCUMENT_CHANGE_PLAN → WAITING_FOR_DOCUMENT_APPROVAL → WRITE_DOCUMENTS → DOCUMENT_VALIDATION → WAITING_FOR_USER_ACCEPTANCE → DONE`
+`PROGRESS_SYNC → DISCOVER → CLARIFY ↔ WAITING_FOR_REQUIRED_CONTEXT → DOCUMENT_AUDIT → DOCUMENT_CHANGE_PLAN → WAITING_FOR_DOCUMENT_APPROVAL → WRITE_DOCUMENTS → DOCUMENT_VALIDATION → WAITING_FOR_USER_ACCEPTANCE → DONE`
 
 只记录有来源的结果，区分“执行方报告”“本 Skill 静态核对”和“尚未验证”。不得修复代码、补写测试、重跑应用检查或替执行方宣称成功。
 
