@@ -15,14 +15,18 @@
 
 ## 通用文档元数据
 
-在仓库格式允许时，为规划文档记录：
+优先遵循仓库已有元数据规范；没有约定时，Level 2-3 规划文档记录：
 
 ```markdown
+- 文档 ID：DOC-001
 - 状态：Draft / Proposed / Approved / Superseded / Archived
-- 负责人：具体人员或 Unassigned（推荐角色：...）
+- 权威范围：
+- 负责人：具体人员或 Unassigned
+- 推荐维护角色：
 - 来源需求：链接、Issue、用户确认或会议记录
-- 关联决策：ADR/决策编号
-- 关联任务：任务编号
+- 上游文档：
+- 下游文档或任务：
+- 替代/被替代：
 - 最后更新：YYYY-MM-DD
 ```
 
@@ -190,14 +194,19 @@ docs/
     <level-1-task>.md
   planning/
     <level-2-or-3-task>/
-      prd.md
+      index.md
+      requirements.md
       flows.md
       architecture.md
       data-model.md
       api-contract.md
       impact-and-roadmap.md
-      tasks-and-handoff.md
       verification-plan.md
+      decisions/
+        DEC-001-<slug>.md
+      tasks/
+        index.md
+        TASK-001-<slug>.md
 ```
 
-只创建适用文件；不要为了匹配目录示例生成空文档。
+只创建适用文件；不要为了匹配目录示例生成空文档。Level 2-3 的索引不可省略，但可以复用仓库已有权威索引。详细规则见 `references/document-package-and-traceability.md`。
