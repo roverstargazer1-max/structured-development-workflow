@@ -1,7 +1,7 @@
 interface:
   display_name: "结构化开发规划与文档治理"
-  short_description: "先核实并补全真实背景，再编写文档、拆分任务和生成交接包"
-  default_prompt: "Use $structured-development-workflow to inspect project facts, stop and ask 1-3 focused questions when required context is missing, then write only approved documents, decompose tasks, and stop before code changes or agent delegation."
+  short_description: "先澄清真实背景，再维护可追踪文档包和独立开发任务卡"
+  default_prompt: "Use $structured-development-workflow to inspect and clarify project facts, then maintain an indexed, cross-linked document package with separate task cards, return only artifact links and status, and stop before code changes or agent delegation."
 
 policy:
   allow_implicit_invocation: true
